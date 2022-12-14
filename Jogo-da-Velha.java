@@ -1,5 +1,6 @@
 #Jogo
 
+import javax.swing.JOptionPane;
 import java.util.Scanner;
 
 public class JogoDaVelha {
@@ -12,6 +13,7 @@ public class JogoDaVelha {
 
     public static void main(String[] args) {
 
+        JOptionPane.showMessageDialog(null, " O JOGO COMEÇOU ");
         desenhoInicial();
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 3; j++) {
@@ -27,61 +29,49 @@ public class JogoDaVelha {
             }
         }
         while (X(X) == false & O(O) == false & Jogadas < 9) {
-            System.out.println(" O JOGO COMEÇOU ");
-            System.out.println("\nDIGITE A COLUNA: ");
-            i = scan.nextInt();
-            System.out.println("DIGITE A LINHA: ");
-            j = scan.nextInt();
+            i = Integer.parseInt(JOptionPane.showInputDialog("\nDIGITE A COLUNA: "));
+            j = Integer.parseInt(JOptionPane.showInputDialog("\nDIGITE A LINHA: "));
             if (i >= 0 & i <= 2 & j >= 0 & j <= 2) {
                 Jogadas++;
                 if (Jogador % 2 == 0) {
                     if (X[i][j] == false || O[i][j] == false) {
-                        System.out.println("POSIÇÃO JÁ PREENCHIDA OU FORA DOS PARÂMETROS");
+                        JOptionPane.showMessageDialog(null, "POSIÇÃO JÁ PREENCHIDA OU FORA DOS PARÂMETROS");
                     } else {
                         Jogador++;
-                        jogoDaVelha[i][j] = " X ";
+                        jogoDaVelha[i][j] = "X";
                         X[i][j] = false;
                         imprimi(jogoDaVelha);
                     }
                 } else {
                     if (X[i][j] == false || O[i][j] == false) {
-                        System.out.println("POSIÇÃO JÁ PREENCHIDA OU FORA DOS PARÂMETROS");
+                        JOptionPane.showMessageDialog(null, "POSIÇÃO JÁ PREENCHIDA OU FORA DOS PARÂMETROS");
                     } else {
                         Jogador++;
-                        jogoDaVelha[i][j] = " O ";
+                        jogoDaVelha[i][j] = "O";
                         O[i][j] = false;
                         imprimi(jogoDaVelha);
                     }
                 }
             } else {
-                System.out.println("POSIÇÃO JÁ PREENCHIDA OU FORA DOS PARÂMETROS");
+                JOptionPane.showMessageDialog(null, "POSIÇÃO JÁ PREENCHIDA OU FORA DOS PARÂMETROS");
             }
         }
         if (X(X) == true) {
-            System.out.println("X GANHOU!!");
+            JOptionPane.showMessageDialog(null, "X GANHOU!!");
         } else if (O(O) == true) {
-            System.out.println("O GANHOU!!");
+            JOptionPane.showMessageDialog(null, "O GANHOU!!");
         } else {
-            System.out.println("VELHA (EMPATE)");
+            JOptionPane.showMessageDialog(null, "VELHA (EMPATE)");
         }
     }
 
     public static void desenhoInicial() {
-        System.out.println("\n    0   1   2");
-        System.out.println("  -------------");
-        System.out.println("0 |   |   |   |");
-        System.out.println("1 |   |   |   |");
-        System.out.println("2 |   |   |   |");
-        System.out.println("  -------------");
+        JOptionPane.showMessageDialog(null,"ESTE É O DESENHO INCIAL DO JOGO\n    0   1  2\n0 |   |   |   |\n1 |   |   |   |\n2 |   |   |   |\n");
     }
 
     public static void imprimi(String[][] jogoDaVelha) {
-        System.out.println("\n    0   1   2");
-        System.out.println("  -------------");
-        System.out.println("0 |" + jogoDaVelha[0][0] + "|" + jogoDaVelha[1][0] + "|" + jogoDaVelha[2][0] + "|");
-        System.out.println("1 |" + jogoDaVelha[0][1] + "|" + jogoDaVelha[1][1] + "|" + jogoDaVelha[2][1] + "|");
-        System.out.println("2 |" + jogoDaVelha[0][2] + "|" + jogoDaVelha[1][2] + "|" + jogoDaVelha[2][2] + "|");
-        System.out.println("  -------------");
+        JOptionPane.showMessageDialog(null,
+                "\n    0   1   2  \n-------------\n" + "0 |" + jogoDaVelha[0][0] + "|" + jogoDaVelha[1][0] + "|"+ jogoDaVelha[2][0] + "|" + "\n1 |" + jogoDaVelha[0][1] + "|" + jogoDaVelha[1][1] + "|"+ jogoDaVelha[2][1] + "|" + "\n2 |" + jogoDaVelha[0][2] + "|" + jogoDaVelha[1][2] + "|"+ jogoDaVelha[2][2] + "|" + "\n  -------------");
     }
 
     public static boolean X(boolean[][] X) {
