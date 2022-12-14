@@ -3,99 +3,146 @@
 import java.util.Scanner;
 
 public class JogoDaVelha {
+    static Scanner scan = new Scanner(System.in);
+    static String[][] jogoDaVelha = new String[3][3];
+    static int i = 0, j = 0;
+    static int Jogadas = 0, Jogador = 0;
+    static boolean[][] O = new boolean[3][3];
+    static boolean[][] X = new boolean[3][3];
+
     public static void main(String[] args) {
-        Campo[][] velha = new Campo[3][3];
-        char simboloAtual = 'X';
-        Boolean game = true;
-        char vitoria = ' ';
-        Scanner scan = new Scanner(System.in);
-        iniciarJogo(velha);
-        while (game) {
-            desenhaJogo(velha);
-            vitoria = verificaVitoria(velha);
-            if (vitoria != (' ')) {
-                System.out.printf("Jogador %s venceu%n", vitoria);
-                game = false;
-                break;
+
+        desenhoInicial();
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+                jogoDaVelha[i][j] = "   ";
             }
-            try {
-                if (verificaJogada(velha, jogar(scan, simboloAtual), simboloAtual)) {
-                    if (simboloAtual == 'X') {
-                        simboloAtual = 'O';
+        }
+        jogoDaVelha[0][1] = " X ";
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+                X[i][j] = true;
+                O[i][j] = true;
+                jogoDaVelha[i][j] = "   ";
+            }
+        }
+        while (X(X) == false & O(O) == false & Jogadas < 9) {
+            System.out.println(" O JOGO COMEÇOU ");
+            System.out.println("\nDIGITE A COLUNA: ");
+            i = scan.nextInt();
+            System.out.println("DIGITE A LINHA: ");
+            j = scan.nextInt();
+            if (i >= 0 & i <= 2 & j >= 0 & j <= 2) {
+                Jogadas++;
+                if (Jogador % 2 == 0) {
+                    if (X[i][j] == false || O[i][j] == false) {
+                        System.out.println("POSIÇÃO JÁ PREENCHIDA OU FORA DOS PARÂMETROS");
                     } else {
-                        simboloAtual = 'X';
+                        Jogador++;
+                        jogoDaVelha[i][j] = " X ";
+                        X[i][j] = false;
+                        imprimi(jogoDaVelha);
+                    }
+                } else {
+                    if (X[i][j] == false || O[i][j] == false) {
+                        System.out.println("POSIÇÃO JÁ PREENCHIDA OU FORA DOS PARÂMETROS");
+                    } else {
+                        Jogador++;
+                        jogoDaVelha[i][j] = " O ";
+                        O[i][j] = false;
+                        imprimi(jogoDaVelha);
                     }
                 }
-            } catch (Exception e) {
-                System.out.print("ERRO durante a execução do jogo!\nErro:" + e);
+            } else {
+                System.out.println("POSIÇÃO JÁ PREENCHIDA OU FORA DOS PARÂMETROS");
             }
         }
-        System.out.print("Fim de jogo!");
-    }
-
-    public static void desenhaJogo(Campo[][] velha) {
-        System.out.println("    0  1  2");
-        System.out.printf("0 %c | %c | %c %n", velha[0][0].getSimbolo(), velha[0][1].getSimbolo(),
-                velha[0][2].getSimbolo());
-        System.out.printf("1 %c | %c | %c %n", velha[1][0].getSimbolo(), velha[1][1].getSimbolo(),
-                velha[1][2].getSimbolo());
-        System.out.printf("2 %c | %c | %c %n", velha[2][0].getSimbolo(), velha[2][1].getSimbolo(),
-                velha[2][2].getSimbolo());
-    }
-
-    public static void limparTela() {
-        for (int cont = 0; cont < 200; cont++) {
-            System.out.println("");
-        }
-    }
-
-    public static int[] jogar(Scanner scan, char sa) {
-        int ponto[] = new int[2];
-        System.out.printf("%s %c%n", "Quem joga: ", sa);
-        System.out.print("Informe a linha: ");
-        ponto[0] = scan.nextInt();
-        System.out.print("Informe a coluna: ");
-        ponto[1] = scan.nextInt();
-        return ponto;
-    }
-
-    public static Boolean verificaJogada(Campo[][] velha, int ponto[], char simboloAtual) {
-        if (velha[ponto[0]][ponto[1]].getSimbolo() == ' ') {
-            velha[ponto[0]][ponto[1]].setSimbolo(simboloAtual);
-            return true;
+        if (X(X) == true) {
+            System.out.println("X GANHOU!!");
+        } else if (O(O) == true) {
+            System.out.println("O GANHOU!!");
         } else {
+            System.out.println("VELHA (EMPATE)");
+        }
+    }
+
+    public static void desenhoInicial() {
+        System.out.println("\n    0   1   2");
+        System.out.println("  -------------");
+        System.out.println("0 |   |   |   |");
+        System.out.println("1 |   |   |   |");
+        System.out.println("2 |   |   |   |");
+        System.out.println("  -------------");
+    }
+
+    public static void imprimi(String[][] jogoDaVelha) {
+        System.out.println("\n    0   1   2");
+        System.out.println("  -------------");
+        System.out.println("0 |" + jogoDaVelha[0][0] + "|" + jogoDaVelha[1][0] + "|" + jogoDaVelha[2][0] + "|");
+        System.out.println("1 |" + jogoDaVelha[0][1] + "|" + jogoDaVelha[1][1] + "|" + jogoDaVelha[2][1] + "|");
+        System.out.println("2 |" + jogoDaVelha[0][2] + "|" + jogoDaVelha[1][2] + "|" + jogoDaVelha[2][2] + "|");
+        System.out.println("  -------------");
+    }
+
+    public static boolean X(boolean[][] X) {
+        if (X[0][0] == false & X[1][1] == false & X[2][2] == false) {
+            return true;
+        }
+        if (X[2][0] == false & X[1][1] == false & X[0][2] == false) {
+            return true;
+        }
+        if (X[0][0] == false & X[0][1] == false & X[0][2] == false) {
+            return true;
+        }
+        if (X[1][0] == false & X[1][1] == false & X[1][2] == false) {
+            return true;
+        }
+        if (X[2][0] == false & X[2][1] == false & X[2][2] == false) {
+            return true;
+        }
+        if (X[0][0] == false & X[1][1] == false & X[2][2] == false) {
+            return true;
+        }
+        if (X[0][0] == false & X[1][0] == false & X[2][0] == false) {
+            return true;
+        }
+        if (X[0][1] == false & X[1][1] == false & X[2][1] == false) {
+            return true;
+        }
+        if (X[0][2] == false & X[1][2] == false & X[2][2] == false) {
+            return true;
+        } else
             return false;
-        }
     }
 
-    public static void iniciarJogo(Campo[][] velha) {
-        for (int l = 0; l < 3; l++) {
-            for (int c = 0; c < 3; c++) {
-                velha[l][c] = new Campo();
-            }
+    public static boolean O(boolean[][] O) {
+        if (O[0][0] == false & O[1][1] == false & O[2][2] == false) {
+            return true;
         }
-    }
-
-    public static char verificaVitoria(Campo[][] velha) {
-        for (int i = 0; i < 3; i++) {
-            if ((velha[i][0].getSimbolo() == 'X' && velha[i][1].getSimbolo() == 'X' && velha[i][2].getSimbolo() == 'X')
-                    || (velha[i][0].getSimbolo() == 'O' && velha[i][1].getSimbolo() == 'O'
-                            && velha[i][2].getSimbolo() == 'O')) {
-                return velha[i][0].getSimbolo();
-            }
+        if (O[2][0] == false & O[1][1] == false & O[0][2] == false) {
+            return true;
         }
-        for (int i = 0; i < 3; i++) {
-            if ((velha[0][i].getSimbolo() == 'X' && velha[1][i].getSimbolo() == 'X' && velha[2][i].getSimbolo() == 'X')
-                    || (velha[0][i].getSimbolo() == 'O' && velha[1][i].getSimbolo() == 'O'
-                            && velha[2][i].getSimbolo() == 'O')) {
-                return velha[0][i].getSimbolo();
-            }
+        if (O[0][0] == false & O[0][1] == false & O[0][2] == false) {
+            return true;
         }
-        if ((velha[0][0].getSimbolo() == 'X' && velha[1][1].getSimbolo() == 'X' && velha[2][2].getSimbolo() == 'X')
-                || (velha[0][2].getSimbolo() == 'O' && velha[1][1].getSimbolo() == 'O'
-                        && velha[2][0].getSimbolo() == 'O')) {
-            return velha[0][0].getSimbolo();
+        if (O[1][0] == false & O[1][1] == false & O[1][2] == false) {
+            return true;
         }
-        return ' ';
+        if (O[2][0] == false & O[2][1] == false & O[2][2] == false) {
+            return true;
+        }
+        if (O[0][0] == false & O[1][1] == false & O[2][2] == false) {
+            return true;
+        }
+        if (O[0][0] == false & O[1][0] == false & O[2][0] == false) {
+            return true;
+        }
+        if (O[0][1] == false & O[1][1] == false & O[2][1] == false) {
+            return true;
+        }
+        if (O[0][2] == false & O[1][2] == false & O[2][2] == false) {
+            return true;
+        } else
+            return false;
     }
 }
